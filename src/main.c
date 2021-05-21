@@ -6,43 +6,28 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 02:31:10 by home              #+#    #+#             */
-/*   Updated: 2020/07/06 20:04:28 by home             ###   ########.fr       */
+/*   Updated: 2021/05/21 00:54:24 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "master.h"
 
-void	game_context_initialize(t_game_context *game_state, t_display *display)
-{
-	game_state->active = true;
-
-	// game_state->texture = IMG_LoadTexture(display->renderer, "");
-	// game_state->src_rect = carve__texture();
-
-	game_state->ticks = 0;
-	game_state->game_over = false;
-
-	// srand(time(NULL));
-	(void)display;
-}
-
 int	main(void)
 {
-	t_display		display;
-	t_game_context	game_state;
+	SDL_bool	window_exit;
+	int			ticks;
 
-	SDLU_start(&display);
-	game_context_initialize(&game_state, &display);
-	while (game_state.active == true)
+	window_exit = SDL_FALSE;
+	while (window_exit == SDL_FALSE)
 	{
-		process_user_input(&game_state);
+		window_exit = SDLX_poll();
 
-		update_game_state(&game_state);
-
-		SDL_RenderPresent(display.renderer);
-		SDL_RenderClear(display.renderer);
-
+		if (window_exit != SDL_TRUE && SDLX_discrete_frames(&(ticks)) != EXIT_FAILURE)
+		{
+			SDLX_RenderQueue_flush(NULL, SDLX_GetDisplay()->renderer);
+			SDLX_screen_reset(SDLX_GetDisplay()->renderer, NULL);
+		}
 	}
-	SDLU_close(&display);
-	return (0);
+
+	return (EXIT_SUCCESS);
 }
