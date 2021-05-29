@@ -41,4 +41,12 @@ void			SDLX_set_background(SDLX_Sprite *src);
 
 SDL_bool		SDLX_poll(void);
 
+void			SDLX_Mouse_to_Screen(int *x, int *y);
+
+int				SDLX_init_button(SDLX_button *dst, int (*sprite_fn)(SDLX_Sprite_Data **, int),
+					int sprite_no, SDL_Rect placement, SDLX_RenderQueue *render_dst);
+
+void			SDLX_update_button(SDLX_button *button);
+void			SDLX_style_button(SDLX_button *button, int norm, int hover);
+
 #endif

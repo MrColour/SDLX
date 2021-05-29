@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   master.h                                           :+:      :+:    :+:   */
+/*   main.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,11 +10,37 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MASTER_H
-# define MASTER_H
+#ifndef main_H
+# define main_H
 
 # include <SDL_image.h>
 
 # include "SDLX.h"
+
+# define ASSETS "assets/"
+
+enum	UI_SPRITES
+{
+	START_NORM,
+	START_HOVER,
+	EXIT_NORM,
+	EXIT_HOVER,
+};
+
+typedef struct	s_context
+{
+	SDLX_RenderQueue	rQueue;
+
+	int					ticks;
+
+	SDLX_button			start_button;
+	SDLX_button			exit_button;
+	SDLX_Sprite			start_sprite;
+	SDLX_Sprite			exit_sprite;
+}				t_context;
+
+int			fetch_ui_sprite(SDLX_Sprite_Data **dst, int no);
+
+SDLX_iMap	*menu_key_map(size_t *size);
 
 #endif

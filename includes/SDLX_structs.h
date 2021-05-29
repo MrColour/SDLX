@@ -30,6 +30,7 @@ typedef struct SDLX_Sprite_Data
 	SDL_Rect		_src;
 	SDL_Rect		*src;
 	size_t			cycle;
+	size_t			skip;
 }	SDLX_Sprite_Data;
 
 typedef struct SDLX_Sprite
@@ -153,5 +154,41 @@ typedef union SDLX_direction
 		int8_t	y;
 	}			c;
 }	SDLX_direction;
+
+typedef struct	SDLX_button
+{
+	SDLX_RenderQueue	*render_dst;
+
+	int			(*sprite_fn)(SDLX_Sprite_Data **, int);
+	SDLX_Sprite	sprite;
+	SDL_Rect	trigger_box;
+
+	int			disabled;
+	int			norm_no;
+	int			focus_no;
+
+	int			priority;
+
+	SDL_bool	global_active;
+	SDL_bool	triggered;
+	SDL_bool	focused;
+
+	void		*meta;
+	char		*text;	//Might be another structure
+
+	//focus_function
+	//focus_once_function
+	//trigger_function
+
+	//set_states_function //What for?
+
+	SDL_bool	*up;
+	SDL_bool	*down;
+	SDL_bool	*left;
+	SDL_bool	*right;
+
+	SDL_Point	*mouse;
+
+}				SDLX_button;
 
 #endif

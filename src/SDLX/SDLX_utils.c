@@ -35,3 +35,9 @@ SDLX_Sprite		*SDLX_new_Sprite(SDLX_Sprite *dst)
 
 	return (dst);
 }
+
+void			SDLX_Mouse_to_Screen(int *x, int *y)
+{
+	(*x) /= DISPLAY_SCALE;
+	(*y) /= DISPLAY_SCALE;
+}
