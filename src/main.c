@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 02:31:10 by home              #+#    #+#             */
-/*   Updated: 2021/05/30 03:26:42 by home             ###   ########.fr       */
+/*   Updated: 2021/05/30 03:53:52 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,22 @@ void	*button_update(SDLX_button *self, SDL_UNUSED void *meta, SDL_UNUSED size_t 
 	SDLX_button	*to;
 
 	to = NULL;
-	if (g_GameInput.GameInput.button_A == 0)
-		self->triggered = SDL_FALSE;
-
-	if (g_GameInput.GameInput.button_DPAD_UP == 1 && g_GameInput_prev.GameInput.button_DPAD_UP == 0 && self->focused)
+	if (SDLX_GAME_PRESS(g_GameInput, g_GameInput_prev, DPAD_UP) && self->focused)
 	{
 		to = self->up;
-		self->focused = SDL_FALSE;
+		SDLX_Button_Lose_Focus(self);
 		g_GameInput_prev.GameInput.button_DPAD_UP = 1;
-		self->sprite_fn(&(self->sprite.sprite_data), self->norm_no);
 	}
 
-	if (g_GameInput.GameInput.button_DPAD_DOWN == 1 && g_GameInput_prev.GameInput.button_DPAD_DOWN == 0 && self->focused)
+	if (SDLX_GAME_PRESS(g_GameInput, g_GameInput_prev, DPAD_DOWN) && self->focused)
 	{
 		to = self->down;
-		self->focused = SDL_FALSE;
+		SDLX_Button_Lose_Focus(self);
 		g_GameInput_prev.GameInput.button_DPAD_DOWN = 1;
-		self->sprite_fn(&(self->sprite.sprite_data), self->norm_no);
 	}
 
 	if (to != NULL)
-	{
-		to->sprite_fn(&(to->sprite.sprite_data), to->focus_no);
-		to->focused = SDL_TRUE;
-	}
+		SDLX_Button_Focus(to);
 	return (NULL);
 }
 
@@ -70,14 +62,9 @@ void	bones_loading(t_context *context)
 	SDLX_Button_Set_fn(&(context->sound_button), SDLX_Button_onHoverFocus, SDLX_Button_NULL_fn, SDLX_Button_NULL_fn, button_trigger, button_update);
 	SDLX_Button_Set_fn(&(context->exit_button), SDLX_Button_onHoverFocus, SDLX_Button_NULL_fn, SDLX_Button_NULL_fn, button_trigger, button_update);
 
-	context->start_button.up = &(context->exit_button);
-	context->start_button.down = &(context->sound_button);
-
-	context->sound_button.up = &(context->start_button);
-	context->sound_button.down = &(context->exit_button);
-
-	context->exit_button.up = &(context->sound_button);
-	context->exit_button.down = &(context->start_button);
+	SDLX_Button_Set_UDLR(&(context->sound_button), &(context->start_button), &(context->exit_button), NULL, NULL);
+	SDLX_Button_Set_UDLR(&(context->exit_button), &(context->sound_button), &(context->start_button), NULL, NULL);
+	SDLX_Button_Set_UDLR(&(context->start_button), &(context->exit_button), &(context->sound_button), NULL, NULL);
 
 	context->start_button.meta = &(g_GameInput);
 	context->sound_button.meta = &(g_GameInput);

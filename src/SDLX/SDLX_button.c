@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/21 01:10:16 by home              #+#    #+#             */
-/*   Updated: 2021/05/30 03:18:20 by home             ###   ########.fr       */
+/*   Updated: 2021/05/30 03:38:16 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,14 @@ void	SDLX_Button_Set_fn(SDLX_button *button,
 	button->focus_once_fn = focus_once_fn;
 	button->trigger_fn = trigger_fn;
 	button->update_fn = update_fn;
+}
+
+void	SDLX_Button_Set_UDLR(SDLX_button *button, void *up, void *down, void *left, void *right)
+{
+	button->up = up;
+	button->down = down;
+	button->left = left;
+	button->right = right;
 }
 
 void	SDLX_Button_ReFocus(SDLX_button *button)

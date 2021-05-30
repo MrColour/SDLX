@@ -92,27 +92,27 @@ typedef struct	SDLX_GameInput
 		int	button_DPAD_LEFT;
 		int	button_DPAD_RIGHT;
 
-		int	num0;
-		int	num1;
-		int	num2;
-		int	num3;
-		int	num4;
-		int	num5;
-		int	num6;
-		int	num7;
-		int	num8;
-		int	num9;
+		int	button_num0;
+		int	button_num1;
+		int	button_num2;
+		int	button_num3;
+		int	button_num4;
+		int	button_num5;
+		int	button_num6;
+		int	button_num7;
+		int	button_num8;
+		int	button_num9;
 
 		SDL_Point primary;
 		SDL_Point primary_delta;
 
-		int	primleft;
-		int	primright;
+		int	button_primleft;
+		int	button_primright;
 
 		SDL_Point second;
 
-		int	secleft;
-		int	secright;
+		int	button_secleft;
+		int	button_secright;
 
 		SDL_Point leftaxis;
 		SDL_Point rightaxis;
@@ -124,6 +124,7 @@ SDLX_GameInput	g_GameInput;
 SDLX_GameInput	g_GameInput_prev;
 
 #define BMAP(button) (g_GameInput.GameInput.button)
+#define SDLX_GAME_PRESS(curr, prev, button) ((curr.GameInput.button_##button == 1 && prev.GameInput.button_##button == 0))
 
 enum	SDLX_DIR
 {
