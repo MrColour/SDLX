@@ -23,20 +23,22 @@ enum	UI_SPRITES
 {
 	START_NORM,
 	START_HOVER,
+	SOUND_NORM,
+	SOUND_HOVER,
 	EXIT_NORM,
 	EXIT_HOVER,
 };
 
 typedef struct	s_context
 {
+	SDLX_Sprite			background;
 	SDLX_RenderQueue	rQueue;
 
 	int					ticks;
 
 	SDLX_button			start_button;
+	SDLX_button			sound_button;
 	SDLX_button			exit_button;
-	SDLX_Sprite			start_sprite;
-	SDLX_Sprite			exit_sprite;
 }				t_context;
 
 int			fetch_ui_sprite(SDLX_Sprite_Data **dst, int no);

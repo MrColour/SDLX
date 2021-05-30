@@ -27,6 +27,8 @@ void			SDLX_RenderQueue_flush(SDLX_RenderQueue *queue, SDL_Renderer *renderer);
 int				SDLX_AxisConvert(SDL_Point *axis);
 void			SDLX_FillXbox_Axis(SDLX_GameInput *game_input, SDL_GameController *controller);
 void			SDLX_toDPAD(SDLX_GameInput *game_input, int set);
+void			SDLX_GameInput_Mouse_Fill(SDLX_GameInput *dst, SDL_bool convert);
+void			SDLX_record_input(SDLX_GameInput *from);
 
 SDL_GameController	*SDLX_XboxController_link(int player_no);
 
@@ -48,5 +50,13 @@ int				SDLX_init_button(SDLX_button *dst, int (*sprite_fn)(SDLX_Sprite_Data **, 
 
 void			SDLX_update_button(SDLX_button *button);
 void			SDLX_style_button(SDLX_button *button, int norm, int hover);
+void			*SDLX_button_null_fn(SDL_UNUSED SDLX_button *button, SDL_UNUSED void *meta, SDL_UNUSED size_t meta_length);
+SDL_bool		SDLX_Button_onHoverFocus(SDLX_button *self, SDL_UNUSED void *meta, SDL_UNUSED size_t meta_length);
+void			SDLX_Button_set_fn(SDLX_button *button,
+								SDL_bool (*get_focus_fn)(struct SDLX_button *, void *, size_t),
+								void *(*focus_fn)(struct SDLX_button *, void *, size_t),
+								void *(*focus_once_fn)(struct SDLX_button *, void *, size_t),
+								void *(*trigger_fn)(struct SDLX_button *, void *, size_t),
+								void *(*update_fn)(struct SDLX_button *, void *, size_t));
 
 #endif

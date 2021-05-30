@@ -104,6 +104,7 @@ typedef struct	SDLX_GameInput
 		int	num9;
 
 		SDL_Point primary;
+		SDL_Point primary_delta;
 
 		int	primleft;
 		int	primright;
@@ -120,6 +121,7 @@ typedef struct	SDLX_GameInput
 }				SDLX_GameInput;
 
 SDLX_GameInput	g_GameInput;
+SDLX_GameInput	g_GameInput_prev;
 
 #define BMAP(button) (g_GameInput.GameInput.button)
 
@@ -163,31 +165,37 @@ typedef struct	SDLX_button
 	SDLX_Sprite	sprite;
 	SDL_Rect	trigger_box;
 
-	int			disabled;
 	int			norm_no;
 	int			focus_no;
 
-	int			priority;
+	SDL_bool	disabled;
 
 	SDL_bool	global_active;
-	SDL_bool	triggered;
 	SDL_bool	focused;
+	SDL_bool	triggered;
 
 	void		*meta;
-	char		*text;	//Might be another structure
+	int			meta_length;
 
-	//focus_function
-	//focus_once_function
-	//trigger_function
+	SDL_bool	(*get_focus_fn)(struct SDLX_button *, void *, size_t);
+
+	void		*(*focus_fn)(struct SDLX_button *, void *, size_t);
+	void		*(*focus_once_fn)(struct SDLX_button *, void *, size_t);
+	void		*(*trigger_fn)(struct SDLX_button *, void *, size_t);
+	void		*(*update_fn)(struct SDLX_button *, void *, size_t);
 
 	//set_states_function //What for?
 
-	SDL_bool	*up;
-	SDL_bool	*down;
-	SDL_bool	*left;
-	SDL_bool	*right;
+	void		*up;
+	void		*down;
+	void		*left;
+	void		*right;
 
 	SDL_Point	*mouse;
+
+	// Currently not used:
+	int			priority;
+	char		*text;	//Might be another structure
 
 }				SDLX_button;
 

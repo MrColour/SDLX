@@ -67,6 +67,18 @@ void	SDLX_toDPAD(SDLX_GameInput *game_input, int set)
 	if (set == SDL_CONTROLLER_BUTTON_DPAD_RIGHT)	game_input->GameInput.button_DPAD_RIGHT	= 1;
 }
 
+void	SDLX_GameInput_Mouse_Fill(SDLX_GameInput *dst, SDL_bool convert)
+{
+	SDL_GetMouseState(&(dst->GameInput.primary.x), &(dst->GameInput.primary.y));
+	SDL_GetRelativeMouseState(&(dst->GameInput.primary_delta.x), &(dst->GameInput.primary_delta.y));
+
+	if (convert == SDL_TRUE)
+	{
+		SDLX_Mouse_to_Screen(&(dst->GameInput.primary.x), &(dst->GameInput.primary.y));
+		// SDLX_Mouse_to_Screen(&(dst->GameInput.primary_delta.x), &(dst->GameInput.primary_delta.y));
+	}
+}
+
 SDL_bool	SDLX_poll(void)
 {
 	SDL_bool	exit;
@@ -83,4 +95,10 @@ SDL_bool	SDLX_poll(void)
 		}
 	}
 	return (exit);
+}
+
+void	SDLX_record_input(SDLX_GameInput *from)
+{
+	g_GameInput_prev = *(from);
+	SDL_memset(&(from->GameInput), 0, sizeof((from->GameInput)));
 }
