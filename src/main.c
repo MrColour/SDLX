@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 02:31:10 by home              #+#    #+#             */
-/*   Updated: 2021/05/29 22:14:28 by home             ###   ########.fr       */
+/*   Updated: 2021/05/30 03:18:20 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,16 @@ void	bones_loading(t_context *context)
 	context->ticks = 0;
 	SDLX_RenderQueue_init(&(context->rQueue));
 
-	SDLX_init_button(&(context->start_button), fetch_ui_sprite, START_NORM, (SDL_Rect){50, 10, 32, 16}, &(context->rQueue));
-	SDLX_init_button(&(context->sound_button), fetch_ui_sprite, SOUND_NORM, (SDL_Rect){50, 26, 32, 16}, &(context->rQueue));
-	SDLX_init_button(&(context->exit_button), fetch_ui_sprite, EXIT_NORM, (SDL_Rect){50, 42, 32, 16}, &(context->rQueue));
+	SDLX_Button_Init(&(context->start_button), fetch_ui_sprite, START_NORM, (SDL_Rect){50, 10, 32, 16}, &(context->rQueue));
+	SDLX_Button_Init(&(context->sound_button), fetch_ui_sprite, SOUND_NORM, (SDL_Rect){50, 26, 32, 16}, &(context->rQueue));
+	SDLX_Button_Init(&(context->exit_button), fetch_ui_sprite, EXIT_NORM, (SDL_Rect){50, 42, 32, 16}, &(context->rQueue));
 
-	SDLX_style_button(&(context->start_button), START_NORM, START_HOVER);
-	SDLX_style_button(&(context->sound_button), SOUND_NORM, SOUND_HOVER);
-	SDLX_style_button(&(context->exit_button), EXIT_NORM, EXIT_HOVER);
-	SDLX_Button_set_fn(&(context->start_button), SDLX_Button_onHoverFocus, SDLX_button_null_fn, SDLX_button_null_fn, button_trigger, button_update);
-	SDLX_Button_set_fn(&(context->sound_button), SDLX_Button_onHoverFocus, SDLX_button_null_fn, SDLX_button_null_fn, button_trigger, button_update);
-	SDLX_Button_set_fn(&(context->exit_button), SDLX_Button_onHoverFocus, SDLX_button_null_fn, SDLX_button_null_fn, button_trigger, button_update);
+	SDLX_Style_Button(&(context->start_button), START_NORM, START_HOVER);
+	SDLX_Style_Button(&(context->sound_button), SOUND_NORM, SOUND_HOVER);
+	SDLX_Style_Button(&(context->exit_button), EXIT_NORM, EXIT_HOVER);
+	SDLX_Button_Set_fn(&(context->start_button), SDLX_Button_onHoverFocus, SDLX_Button_NULL_fn, SDLX_Button_NULL_fn, button_trigger, button_update);
+	SDLX_Button_Set_fn(&(context->sound_button), SDLX_Button_onHoverFocus, SDLX_Button_NULL_fn, SDLX_Button_NULL_fn, button_trigger, button_update);
+	SDLX_Button_Set_fn(&(context->exit_button), SDLX_Button_onHoverFocus, SDLX_Button_NULL_fn, SDLX_Button_NULL_fn, button_trigger, button_update);
 
 	context->start_button.up = &(context->exit_button);
 	context->start_button.down = &(context->sound_button);
@@ -116,9 +116,9 @@ int	main(void)
 		SDLX_KeyMap(&(g_GameInput.key_mapper), keystate);
 		SDLX_GameInput_Mouse_Fill(&(g_GameInput), SDL_TRUE);
 
-		SDLX_update_button(&(context.start_button));
-		SDLX_update_button(&(context.sound_button));
-		SDLX_update_button(&(context.exit_button));
+		SDLX_Button_Update(&(context.start_button));
+		SDLX_Button_Update(&(context.sound_button));
+		SDLX_Button_Update(&(context.exit_button));
 
 		SDLX_record_input(&(g_GameInput));
 
