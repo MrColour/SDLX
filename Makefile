@@ -1,4 +1,4 @@
-NAME = bones
+NAME = app
 FLAGS = -Wall -Wextra -Werror
 INCLUDES = -I includes/ -I ~/.brew/include/SDL2/
 SDL_LIB = -L ~/.brew/lib -l SDL2 -l sdl2_image -l SDL2_ttf
@@ -23,7 +23,6 @@ SRC_NAMES = \
 	$(addprefix $(SDLX_DIR), $(SDLX_NAMES))	\
 	input \
 	main \
-	ui_sprite \
 
 # List of all the source files, folders are to be added by
 # including a $(addprefix, DIR_NAME, $(DIR_FILES))

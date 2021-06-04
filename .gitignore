@@ -5,8 +5,8 @@
 .vscode
 .DS_Store
 ._*
-bones
 bin
+app
 -_---_-_-  -_---_-_-  -_---_-_-  -_---_-_-  -_---_-_-  -_---_-_-  -_---_-_-
 # Prerequisites
 *.d
