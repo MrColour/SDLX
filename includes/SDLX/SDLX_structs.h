@@ -18,6 +18,8 @@
 
 # include "SDLX_const.h"
 
+#define SDLX_NULL_SELF ((void *)(1))
+
 typedef struct SDLX_Display
 {
 	SDL_Renderer	*renderer;
@@ -45,6 +47,8 @@ typedef struct SDLX_Sprite
 	SDL_Point			_center;
 	SDL_Point			*center;
 	SDL_RendererFlip	flip;
+
+	size_t				id;
 }	SDLX_Sprite;
 
 typedef struct SDLX_RenderQueue
@@ -55,6 +59,7 @@ typedef struct SDLX_RenderQueue
 	SDLX_Sprite		**content;
 }	SDLX_RenderQueue;
 
+extern SDLX_RenderQueue	default_RenderQueue;
 typedef struct	SDLX_iMap
 {
 	int			*dest;
@@ -73,6 +78,8 @@ typedef struct	SDLX_GameInput
 {
 	SDLX_input_mapper	key_mapper;
 	SDLX_input_mapper	pad_mapper;
+
+	const Uint8			*keystate;
 
 	struct
 	{
@@ -120,11 +127,13 @@ typedef struct	SDLX_GameInput
 	}	GameInput;
 }				SDLX_GameInput;
 
-SDLX_GameInput	g_GameInput;
-SDLX_GameInput	g_GameInput_prev;
+extern SDLX_GameInput	g_GameInput;
+extern SDLX_GameInput	g_GameInput_prev;
 
 #define BMAP(button) (g_GameInput.GameInput.button)
-#define SDLX_GAME_PRESS(curr, prev, button) ((curr.GameInput.button_##button == 1 && prev.GameInput.button_##button == 0))
+#define SDLX_GAME_PRESS(curr, prev, button) ((curr.GameInput.button_##button != 0 && prev.GameInput.button_##button == 0))
+#define SDLX_GAME_RELEASE(curr, prev, button) ((curr.GameInput.button_##button == 0 && prev.GameInput.button_##button >= 1))
+#define SDLX_INPUT_CONSUME(curr, prev, button) {curr.GameInput.button_##button = -1; prev.GameInput.button_##button = -1;}
 
 enum	SDLX_DIR
 {
@@ -168,14 +177,16 @@ typedef struct	SDLX_button
 
 	int			norm_no;
 	int			focus_no;
+	SDL_bool	isLocked;
 
-	SDL_bool	disabled;
+	SDL_bool	isDisabled;
 
-	SDL_bool	global_active;
-	SDL_bool	focused;
-	SDL_bool	triggered;
+	SDL_bool	isGloballyActive;
+	SDL_bool	isFocused;
+	SDL_bool	isTriggered;
 
 	void		*meta;
+	void		*meta1;
 	int			meta_length;
 
 	SDL_bool	(*get_focus_fn)(struct SDLX_button *, void *, size_t);
@@ -192,12 +203,47 @@ typedef struct	SDLX_button
 	void		*left;
 	void		*right;
 
-	SDL_Point	*mouse;
-
 	// Currently not used:
 	int			priority;
 	char		*text;	//Might be another structure
 
 }				SDLX_button;
+
+typedef struct	SDLX_collision
+{
+	size_t		type;
+	double		angle;
+	SDL_Rect	hitbox;
+	SDL_Rect	*hitbox_ptr;
+	SDL_Point	center;
+	SDL_Point	*center_ptr;
+
+	size_t		response_amount;
+	size_t		*response_type;
+
+	void		*originator;
+
+	void		*detect_meta1;
+	void		*detect_meta2;
+
+	void		*engage_meta1;
+	void		*engage_meta2;
+
+	void		*(*engage)(void *, void *, void *, void *);
+	SDL_bool	(*detect)(void *, void *, void *, void *);
+
+}				SDLX_collision;
+
+typedef struct	SDLX_collision_bucket
+{
+	size_t		type;
+
+	size_t		index;
+	size_t		capacity;
+
+	SDLX_collision	**content;
+}				SDLX_collision_bucket;
+
+extern SDLX_collision_bucket	default_CollisionBucket;
 
 #endif

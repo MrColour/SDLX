@@ -13,7 +13,7 @@
 #ifndef main_H
 # define main_H
 
-# include <SDL_image.h>
+# include <SDL2/SDL_image.h>
 
 # include "SDLX.h"
 

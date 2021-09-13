@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 02:31:10 by home              #+#    #+#             */
-/*   Updated: 2021/06/03 19:44:03 by home             ###   ########.fr       */
+/*   Updated: 2021/09/13 01:32:56 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(void)
 		window_exit = SDLX_poll();
 
 		if (window_exit != SDL_TRUE && SDLX_discrete_frames(&(ticks)) != EXIT_FAILURE)
-			SDLX_screen_reset(SDLX_GetDisplay()->renderer, NULL);
+			SDLX_ScreenReset(SDLX_GetDisplay()->renderer, NULL);
 	}
 
 	return (EXIT_SUCCESS);

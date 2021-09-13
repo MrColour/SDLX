@@ -1,6 +1,8 @@
 NAME = app
 FLAGS = -Wall -Wextra -Werror
-INCLUDES = -I includes/ -I ~/.brew/include/SDL2/
+# FLAGS = -Wall -Wextra -Werror -fsanitize=address
+INCLUDES = -I includes/ -I includes/SDLX/
+
 SDL_LIB = -L ~/.brew/lib -l SDL2 -l sdl2_image -l SDL2_ttf
 
 SDLX_DIR = SDLX/
@@ -9,13 +11,18 @@ BIN_DIR = bin/
 
 SDLX_NAMES = 			\
 	SDLX_background		\
+	SDLX_button_loop	\
 	SDLX_button			\
+	SDLX_collide		\
+	SDLX_collisions		\
 	SDLX_init			\
 	SDLX_input			\
 	SDLX_ticks			\
+	SDLX_math			\
 	SDLX_render_queue	\
 	SDLX_render			\
 	SDLX_utils			\
+	SDLX_utilsX			\
 	SDLX_xbox			\
 
 # List of all the source files.
@@ -34,7 +41,8 @@ SRCS = $(addsuffix .c, $(addprefix $(SRC_DIR), $(FILE_NAMES)))
 # structure/ path tree that the SRC_DIR has.
 OBJS = $(addprefix $(BIN_DIR), $(SRCS:.c=.o))
 
-all: $(NAME)
+all:
+	make -j $(NAME)
 
 $(NAME): $(BIN_DIR) $(OBJS)
 	gcc $(FLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(SDL_LIB)
@@ -45,8 +53,8 @@ $(BIN_DIR):
 # These are the target object file names given by path ($(OBJS)).
 # We will create the required directories with mkdir -p.
 $(BIN_DIR)%.o: %.c
-	mkdir -p $(BIN_DIR)$(dir $<)
-	gcc $(FLAGS) $(INCLUDES) -c $< -o $@
+	@mkdir -p $(BIN_DIR)$(dir $<)
+	@gcc $(FLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
@@ -64,7 +72,7 @@ re: fclean all
 
 run:
 	rm -f $(NAME)
-	make all
+	make -j all
 	clear
 	@echo "\033[1m\033[32m$(NAME)\033[0m"
 	@./$(NAME)
